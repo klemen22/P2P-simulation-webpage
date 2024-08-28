@@ -1,4 +1,3 @@
-(Posiljam vam kar celoten folder projekta)
 (Koda je bila prilagojena tako da dela vse na local host)
 
 Key notes:

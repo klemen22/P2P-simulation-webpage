@@ -1,0 +1,23 @@
+Koda je bila spremenjena v datoteki "Flegar/nodeJS/server_api.js" (vrstica 42):
+
+	*Koda pred spremembo:*
+	
+	if (end) { //add filter for end time
+        query = query + " AND timeStamp <= ?";
+        queryParams.push(end);
+    }
+	
+	*Koda po spremembi:*
+	
+	if (end) { //add filter for end time
+        const endDate = new Date(end); 
+        endDate.setHours(23, 59, 59, 999); //adjust end date so it includes all hours, minutes, seconds, and milliseconds on that day
+        query = query + " AND timeStamp <= ?";
+        const formattedEndDate = endDate.toLocaleString('sv-SE', { hour12: false }).replace('T', ' '); //use ISO 8601 format and replace T with space so it matches MySQL format
+        queryParams.push(formattedEndDate);  
+    }
+	
+Potrebno je bilo spremeniti obliko end date-a, ki je poslan v query-u. Z prvotno kodo je query vernili nazaj vse IP naslove od start date-a do end date-a brez end date-a. Zato, da bi query vrnil tudi end date zajete naslove, se je end date-u dodala ura nastavljena na 23:59:59:999 tako da pridejo v upostev tudi se vsi end date naslovi. Potrebno je bilo tudi ustrezno formatirati spremenjen end date tako da se ujema z MySQL date format-om (YYYY-MM-DD HH:MM:SS).	
+
+
+
